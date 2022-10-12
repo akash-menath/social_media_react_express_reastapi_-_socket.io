@@ -5,6 +5,7 @@ import Profile from '../../img/profileImg.jpg'
 
 
 function ProfileCard() {
+  const profilePge=true;
   return (
     <div className='ProfileCard'>
       <div className='ProfileImages'>
@@ -23,17 +24,31 @@ function ProfileCard() {
             <span>6,879</span>
             <span>followings</span>
           </div>
-          <div className='vl'>
+
+          <div className='vl'></div>
+
             <div className='follow'>
               <span>1</span>
               <span>followers</span>
             </div>
+            {profilePge && (
+              <>
+              <div className="vl"></div>
+              <div className="follow">
+                <span>3</span>
+                <span>Posts</span>
+              </div>
+              </>
+            )}
 
-          </div>
         </div>
-        <hr/>
+        <hr />
       </div>
-      
+      { profilePge ?"": <span>
+        My Profile
+      </span> }
+     
+
     </div>
   )
 }
