@@ -28,10 +28,10 @@ const UserSchema = mongoose.Schema(
     livesIn: String,
     workAt: String,
     relationship: String,
-    follower: [],
+    followers: [],
     following: [],
   },
   { timestamps: true }
 );
-const userModel= mongoose.model("users",UserSchema);
- export default userModel
+const userModel = mongoose.model("users", UserSchema);
+export default userModel;
