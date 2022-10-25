@@ -6,8 +6,13 @@ import cors from "cors"
 import AuthRoute from "./Routes/AuthRout.js";
 import UserRoute from "./Routes/UserRoute.js";
 import PostRoute from "./Routes/PostRout.js";
+import UploadRoute from "./Routes/UploadRouts.js"
 
 const app = express();
+
+//to serve  image for public
+app.use(express.static('public'))
+app.use('/images',express.static("images"))
 
 //middlewares
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
@@ -32,3 +37,4 @@ mongoose
 app.use("/auth", AuthRoute);
 app.use("/user", UserRoute);
 app.use("/post", PostRoute);
+app.use("/upload",UploadRoute)

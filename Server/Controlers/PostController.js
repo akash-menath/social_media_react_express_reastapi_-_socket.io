@@ -6,11 +6,11 @@ import userModel from "../Models/userModel.js";
 
 //crerate new post
 export const createPost = async (req, res) => {
-  console.log(1111111111111);
   const newPost = new PostModel(req.body);
   try {
     await newPost.save();
-    res.status(200).json("new post created");
+    res.status(200).json(newPost);
+    console.log("newpost created :",newPost);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -63,17 +63,24 @@ export const deletePost = async (req, res) => {
 };
 //like and unlike
 
+
+// 
+
+
+
+// 
+
 export const likePost = async (req, res) => {
   const postId = req.params.id;
   const { userId } = req.body;
   try {
     const post = await PostModel.findById(postId);
-    if (!post.likes.includes(userId)) {
+    if (post.likes.includes(userId)) {
+      await post.updateOne({ $pull: { likes: userId } });
+      res.status(200).json("disliked");
+    } else {
       await post.updateOne({ $push: { likes: userId } });
       res.status(200).json("liked");
-    } else {
-      await post.updateOne({ $pull: { likes: userId } });
-      res.status(200).json("unliked");
     }
   } catch (error) {
     res.status(500).json(error);

@@ -1,56 +1,82 @@
-import React from 'react'
-import './profileCard.css';
-import Cover from '../../img/cover.jpg'
-import Profile from '../../img/profileImg.jpg'
+import React from "react";
+import "./profileCard.css";
+import Cover from "../../img/cover.jpg";
+import Profile from "../../img/profileImg.jpg";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
+function ProfileCard({ location }) {
+  const { user } = useSelector((state) => state.authReducer.authData);
+  const posts = useSelector((state)=>state.postReducer.posts)
+  const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER;
 
-function ProfileCard() {
-  const profilePge=true;
   return (
-    <div className='ProfileCard'>
-      <div className='ProfileImages'>
-        <img src={Cover} alt="" />
-        <img src={Profile} alt="" />
+    <div className="ProfileCard">
+      <div className="ProfileImages">
+        <img
+          src={
+            user.coverPicture
+              ? serverPublic + user.coverPicture
+              : serverPublic + "defaultCover.jpg"
+          }
+          alt=""
+        />
+        <img
+          src={
+            user.coverPicture
+              ? serverPublic + user.profilePicture
+              : serverPublic + "defaultProfile.png"
+          }
+          alt=""
+        />
       </div>
-      <div className='ProfileName'>
-        <span>akash</span>
-        <span>jjunier ui ux designer</span>
+      <div className="ProfileName">
+        <span>
+          {user.firstname} {user.lastname}
+        </span>
+        <span>{user.worksAt ? user.worksAt : "write about your self"}</span>
       </div>
 
-      <div className='followStatus'>
+      <div className="followStatus">
         <hr />
         <div>
-          <div className='follow'>
-            <span>6,879</span>
-            <span>followings</span>
+          <div className="follow">
+            <span>{user.following.length}</span>
+            <span>following</span>
           </div>
 
-          <div className='vl'></div>
+          <div className="vl"></div>
 
-            <div className='follow'>
-              <span>1</span>
-              <span>followers</span>
-            </div>
-            {profilePge && (
-              <>
+          <div className="follow">
+            <span>{user.followers.length}</span>
+            <span>followers</span>
+          </div>
+          {location === "profilePage" && (
+            <>
               <div className="vl"></div>
               <div className="follow">
-                <span>3</span>
+                <span>{posts.filter((post)=>post.userId===user._id).length}</span>
                 <span>Posts</span>
               </div>
-              </>
-            )}
-
+            </>
+          )}
         </div>
         <hr />
       </div>
-      { profilePge ?"": <span>
-        My Profile
-      </span> }
-     
-
+      {location === "profilePage" ? (
+        ""
+      ) : (
+        <span>
+          <Link
+            style={{ textDecoration: "none", color: "inherit" }}
+            to={`/profile/${user._id}`}
+          >
+            My Profile
+          </Link>
+        </span>
+      )}
     </div>
-  )
+  );
 }
 
-export default ProfileCard
+export default ProfileCard;

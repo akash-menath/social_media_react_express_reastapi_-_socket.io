@@ -7,7 +7,7 @@ import './Home.css'
 function Home() {
   return (
     <div className='Home'>
-     <ProfileSide/>
+     <ProfileSide />
      <PostSide/> 
      <RightSide/>
     </div>
