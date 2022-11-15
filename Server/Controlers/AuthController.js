@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 
 //registering a new user
 export const registerUser = async (req, res) => {
+  console.log(req.body);
   const salt = await bcrypt.genSalt(10);
   const hashPassword = await bcrypt.hash(req.body.password, salt);
   req.body.password = hashPassword;
@@ -16,7 +17,7 @@ export const registerUser = async (req, res) => {
     if (oldUser) {
       return res.status(400).json({ message: "username is already registred" });
     }
-    const user = await newUser.save();
+    const user = await newUser.save(); //
     const token = jwt.sign(
       {
         username: user.username,
@@ -60,6 +61,6 @@ export const loginUser = async (req, res) => {
       res.status(404).json("user does not exist");
     }
   } catch (error) {
-    res.status(200).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
